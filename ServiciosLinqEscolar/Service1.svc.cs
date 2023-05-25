@@ -48,6 +48,14 @@ namespace ServiciosLinqEscolar
             return composite;
         }
 
-        
+        public bool EditarUsuario(usuario UsuarioEdicion)
+        {
+            return UsuarioDAO.EditarUsuario(UsuarioEdicion);
+        }
+
+        public bool EliminarUsuario(int idUsuario)
+        {
+            return UsuarioDAO.EliminarUsuario(idUsuario);
+        }
     }
 }

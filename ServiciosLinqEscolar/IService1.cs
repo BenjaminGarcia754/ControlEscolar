@@ -23,6 +23,11 @@ namespace ServiciosLinqEscolar
         [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);
 
+        [OperationContract]
+        Boolean EditarUsuario(usuario UsuarioEdicion);
+        [OperationContract]
+        Boolean EliminarUsuario(int idUsuario);
+
         // TODO: agregue aquí sus operaciones de servicio
     }
 

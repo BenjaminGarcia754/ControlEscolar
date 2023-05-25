@@ -20,7 +20,7 @@ namespace ServiciosLinqEscolar.Modelo
             DataClasesEscolarUVDataContext conexionBD = obtenerCadenaConexion();
 
             IQueryable<usuario> usuariosBD = from usuarioQuery in conexionBD.usuario
-                                          select usuarioQuery;
+                                             select usuarioQuery;
             return usuariosBD.ToList();
         }
 
@@ -28,9 +28,9 @@ namespace ServiciosLinqEscolar.Modelo
         {
             DataClasesEscolarUVDataContext conexionBD = obtenerCadenaConexion();
 
-            
+
             var usuarioLogin = (from usuarioQuery in conexionBD.usuario
-                                where usuarioQuery.username == username && 
+                                where usuarioQuery.username == username &&
                                       usuarioQuery.password == password
                                 select usuarioQuery).FirstOrDefault();
             return usuarioLogin;
@@ -59,5 +59,59 @@ namespace ServiciosLinqEscolar.Modelo
             }
             return true;
         }
+
+        public static Boolean EditarUsuario(usuario usuarioEdicion)
+        {
+            bool cambiosCorrectos = false;
+            try
+            {
+                DataClasesEscolarUVDataContext conexionBD = obtenerCadenaConexion();
+
+                usuario usuarioTemporal = (from usuarioQuery in conexionBD.usuario
+                                           where usuarioEdicion.idUsuario == usuarioQuery.idUsuario
+                                           select usuarioQuery).FirstOrDefault();
+
+                if (usuarioTemporal != null)
+                {
+                    usuarioTemporal.nombre = usuarioEdicion.nombre;
+                    usuarioTemporal.apellidoPaterno = usuarioEdicion.apellidoPaterno;
+                    usuarioTemporal.apellidoMaterno = usuarioEdicion.apellidoMaterno;
+                    usuarioTemporal.password = usuarioEdicion.password;
+                    conexionBD.SubmitChanges();
+                    cambiosCorrectos = true;
+                }
+            }
+            catch (Exception)
+            {
+                cambiosCorrectos = false;
+            }
+            
+            return cambiosCorrectos;
+        }
+
+        public static Boolean EliminarUsuario(int idUsuario)
+        {
+            bool cambiosCorrectos = false;
+            try
+            {
+                DataClasesEscolarUVDataContext conexionBD = obtenerCadenaConexion();
+                usuario usuarioAEliminar = (from usuario in conexionBD.usuario
+                                            where usuario.idUsuario == idUsuario
+                                            select usuario).FirstOrDefault();
+
+                if (usuarioAEliminar!=null)
+                {
+                    conexionBD.usuario.DeleteOnSubmit(usuarioAEliminar);
+                    conexionBD.SubmitChanges();
+                    cambiosCorrectos = true;
+                }
+            }
+            catch (Exception)
+            {
+                cambiosCorrectos = false;
+            }
+            return cambiosCorrectos;
+        }
+
     }
 }
