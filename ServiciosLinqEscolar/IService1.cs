@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiciosLinqEscolar.Modelo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -14,7 +15,10 @@ namespace ServiciosLinqEscolar
     {
 
         [OperationContract]
-        string GetData(int value);
+        List<usuario> GetObtenerUsuarios();
+
+        [OperationContract]
+        usuario IniciarSesion(string username, string password);
 
         [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);

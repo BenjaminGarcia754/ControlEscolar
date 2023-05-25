@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiciosLinqEscolar.Modelo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -12,9 +13,26 @@ namespace ServiciosLinqEscolar
     // NOTE: para iniciar el Cliente de prueba WCF para probar este servicio, seleccione Service1.svc o Service1.svc.cs en el Explorador de soluciones e inicie la depuración.
     public class Service1 : IService1
     {
-        public string GetData(int value)
+        public usuario IniciarSesion(string username, string password)
         {
-            return string.Format("You entered: {0}", value);
+            usuario usuarioLogin = new usuario();
+            try
+            {
+                usuarioLogin = UsuarioDAO.iniciarSesion(username, password);
+            }
+            catch(Exception ex)
+            {
+                usuarioLogin.username = "username";
+                usuarioLogin.password = "dummy";
+            }
+            
+            return usuarioLogin;
+        }
+
+        public List<usuario> GetObtenerUsuarios()
+        {
+            List<usuario> usuariosBD = UsuarioDAO.obtenerUsuarios();
+            return usuariosBD;
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
@@ -29,5 +47,7 @@ namespace ServiciosLinqEscolar
             }
             return composite;
         }
+
+        
     }
 }
