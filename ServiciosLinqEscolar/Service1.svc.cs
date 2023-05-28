@@ -13,20 +13,9 @@ namespace ServiciosLinqEscolar
     // NOTE: para iniciar el Cliente de prueba WCF para probar este servicio, seleccione Service1.svc o Service1.svc.cs en el Explorador de soluciones e inicie la depuración.
     public class Service1 : IService1
     {
-        public usuario IniciarSesion(string username, string password)
-        {
-            usuario usuarioLogin = new usuario();
-            try
-            {
-                usuarioLogin = UsuarioDAO.iniciarSesion(username, password);
-            }
-            catch(Exception ex)
-            {
-                usuarioLogin.username = "username";
-                usuarioLogin.password = "dummy";
-            }
-            
-            return usuarioLogin;
+        public Mensaje IniciarSesion(string username, string password)
+        {   
+            return UsuarioDAO.iniciarSesion(username, password);
         }
 
         public List<usuario> GetObtenerUsuarios()

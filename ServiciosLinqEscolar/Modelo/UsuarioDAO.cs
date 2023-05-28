@@ -24,16 +24,27 @@ namespace ServiciosLinqEscolar.Modelo
             return usuariosBD.ToList();
         }
 
-        public static usuario iniciarSesion(string username, string password)
+        public static Mensaje iniciarSesion(string username, string password)
         {
-            DataClasesEscolarUVDataContext conexionBD = obtenerCadenaConexion();
-
-
-            var usuarioLogin = (from usuarioQuery in conexionBD.usuario
-                                where usuarioQuery.username == username &&
-                                      usuarioQuery.password == password
-                                select usuarioQuery).FirstOrDefault();
-            return usuarioLogin;
+            Mensaje nuevoMensaje = new Mensaje();
+            try
+            {
+                DataClasesEscolarUVDataContext conexionBD = obtenerCadenaConexion();
+                var usuarioLogin = (from usuarioQuery in conexionBD.usuario
+                                    where usuarioQuery.username == username &&
+                                          usuarioQuery.password == password
+                                    select usuarioQuery).FirstOrDefault();
+                nuevoMensaje.usuario = usuarioLogin;
+                nuevoMensaje.confirmacion = true;
+                nuevoMensaje.mensaje = "Usuario encontrado correctamente";
+            }
+            catch (Exception ex)
+            {
+                nuevoMensaje.confirmacion=false;
+                nuevoMensaje.mensaje = "El usuario " + username + "no se ha podido encontrar";
+            }
+           
+            return nuevoMensaje;
         }
 
         public static Boolean GuardarUsuario(usuario UsuarioNuevo)

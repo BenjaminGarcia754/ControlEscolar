@@ -18,7 +18,7 @@ namespace ServiciosLinqEscolar
         List<usuario> GetObtenerUsuarios();
 
         [OperationContract]
-        usuario IniciarSesion(string username, string password);
+        Mensaje IniciarSesion(string username, string password);
 
         [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);
